@@ -1,4 +1,4 @@
-import { type CollectionEntry, getCollection } from 'astro:content'
+import { getCollection } from 'astro:content'
 import rss from '@astrojs/rss'
 
 import config from '@/config.json'
@@ -6,14 +6,8 @@ import { filterDrafts } from '@/lib/utils'
 
 export async function GET(context: { site: string }) {
   const { title, description } = config.pages.find((page) => page.href === '/blog')!
-  const posts: CollectionEntry<'blog'>[] = await getCollection(
-    'blog',
-    (entry: CollectionEntry<'blog'>) => filterDrafts(entry)
-  )
-  const sortedPosts: CollectionEntry<'blog'>[] = posts.sort(
-    (a: CollectionEntry<'blog'>, b: CollectionEntry<'blog'>) =>
-      b.data.pubDate!.valueOf() - a.data.pubDate!.valueOf()
-  )
+  const posts = await getCollection('blog', (entry) => filterDrafts(entry))
+  const sortedPosts = posts.sort((a, b) => b.data.pubDate!.valueOf() - a.data.pubDate!.valueOf())
 
   return await rss({
     title,

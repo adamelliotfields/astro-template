@@ -1,19 +1,14 @@
 ---
-import { type CollectionEntry, getCollection } from 'astro:content'
+import { getCollection } from 'astro:content'
 import { ArrowUpRight } from 'lucide-react'
 import { buttonVariants } from '@/components/ui/button'
 import config from '@/config.json'
 import Layout from '@/layouts/Base.astro'
 import { filterDrafts, formatDate, withBase } from '@/lib/utils'
 
-type Post = CollectionEntry<'blog'>
-
-const posts = await getCollection('blog', (entry: CollectionEntry<'blog'>) => filterDrafts(entry))
+const posts = await getCollection('blog', (entry) => filterDrafts(entry))
 const sortedPosts = posts
-  .sort(
-    (a: CollectionEntry<'blog'>, b: CollectionEntry<'blog'>) =>
-      b.data.pubDate!.valueOf() - a.data.pubDate!.valueOf()
-  )
+  .sort((a, b) => b.data.pubDate!.valueOf() - a.data.pubDate!.valueOf())
   .slice(0, 4)
 
 const { title, description } = config.pages.find((item) => item.href === '/')!
@@ -69,7 +64,7 @@ const { title, description } = config.pages.find((item) => item.href === '/')!
 
       <div class="mt-10 space-y-16 lg:border-l lg:pl-6">
         {
-          sortedPosts.map((post: Post) => {
+          sortedPosts.map((post) => {
             const { description: postDescription, title: postTitle, pubDate } = post.data
             return (
               <section class="lg:grid lg:grid-cols-[auto_1fr] lg:gap-8 lg:items-baseline">

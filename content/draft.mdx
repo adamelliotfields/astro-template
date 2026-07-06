@@ -10,8 +10,10 @@ This is a draft post. It has `draft: true` in its frontmatter.
 When rendering posts, we use the `filterDrafts` utility function to ensure it is not included in production builds:
 
 ```ts
-export function filterDrafts(entry: CollectionEntry<'blog'>): boolean {
-  const isDraft = import.meta.env.PROD ? (entry as CollectionEntry<'blog'>).data.draft === true : false
+type Post = CollectionEntry<'blog'>
+
+export function filterDrafts(entry: Post): boolean {
+  const isDraft = import.meta.env.PROD ? entry.data.draft === true : false
   return !isDraft
 }
 ```

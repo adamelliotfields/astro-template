@@ -3,7 +3,9 @@ import { type CollectionEntry, getCollection } from 'astro:content'
 import config from '@/config.json'
 import { filterDrafts, withBase } from '@/lib/utils'
 
-const getLlmsTxt = (posts: CollectionEntry<'blog'>[], site: URL) => {
+type Post = CollectionEntry<'blog'>
+
+const getLlmsTxt = (posts: Post[], site: URL) => {
   const { description } = config.pages.find((page) => page.href === '/')!
   const links = posts.map((post) => {
     const postURL = new URL(withBase(`/blog/${post.id}.md`), site)

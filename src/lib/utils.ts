@@ -2,6 +2,8 @@ import type { CollectionEntry } from 'astro:content'
 import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
+type Post = CollectionEntry<'blog'>
+
 /** Merge and join class names. */
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -40,10 +42,8 @@ export function openGraphImagePath(pathname: string) {
 }
 
 /** Filter out draft entries. */
-export function filterDrafts(entry: CollectionEntry<'blog'>): boolean {
-  const isDraft = import.meta.env.PROD
-    ? (entry as CollectionEntry<'blog'>).data.draft === true
-    : false
+export function filterDrafts(entry: Post): boolean {
+  const isDraft = import.meta.env.PROD ? entry.data.draft === true : false
   return !isDraft
 }
 

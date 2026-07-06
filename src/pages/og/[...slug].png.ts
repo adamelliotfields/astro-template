@@ -1,10 +1,23 @@
-import { type CollectionEntry, getCollection } from 'astro:content'
+import { getCollection } from 'astro:content'
 import { Resvg, type ResvgRenderOptions } from '@resvg/resvg-js'
 import type { ReactNode } from 'react'
 import satori, { type FontStyle, type FontWeight, type SatoriOptions } from 'satori'
 
 import config from '@/config.json'
 import { filterDrafts, withBase } from '@/lib/utils'
+
+type RemoteFont = {
+  id: string
+  name: string
+  style: FontStyle
+  weight: FontWeight
+}
+
+type OpenGraphImageProps = {
+  description: string
+  title: string
+  url: string
+}
 
 const [notFound] = Object.values(import.meta.glob('../404.astro', { eager: true })) as [
   {
@@ -30,13 +43,6 @@ const sansFont = { id: 'source-sans-3', name: 'Source Sans 3' }
 const monoFont = { id: 'source-code-pro', name: 'Source Code Pro' }
 const fontSourceUrl = (font: string, weight: FontWeight, style: FontStyle) =>
   `https://cdn.jsdelivr.net/fontsource/fonts/${font}@latest/latin-${weight}-${style}.woff`
-
-type RemoteFont = {
-  id: string
-  name: string
-  style: FontStyle
-  weight: FontWeight
-}
 
 // The site uses variable-weight fonts which are only WOFF2.
 // Satori doesn't support WOFF2 so we fetch static-weight WOFF fonts instead.
@@ -91,10 +97,7 @@ export const getStaticPaths = async () => {
     }
   }))
 
-  const posts: CollectionEntry<'blog'>[] = await getCollection(
-    'blog',
-    (entry: CollectionEntry<'blog'>) => filterDrafts(entry)
-  )
+  const posts = await getCollection('blog', (entry) => filterDrafts(entry))
 
   return [
     ...pages,
@@ -107,12 +110,6 @@ export const getStaticPaths = async () => {
       }
     }))
   ]
-}
-
-type OpenGraphImageProps = {
-  description: string
-  title: string
-  url: string
 }
 
 export const GET = async ({ props }: { props: OpenGraphImageProps }) => {

@@ -70,14 +70,12 @@ function getFooterText(
 ) {
   if (!selectedValue) return ''
 
-  if (selectedValue.startsWith(withBase('/blog/'))) {
-    const post = posts.find((item) => withBase(item.href) === selectedValue)
-    const result = results.find((item) => withBase(item.url) === selectedValue)
-    return `Read the "${post?.title ?? result?.meta.title ?? selectedValue}" post`
-  }
+  const result = results.find((item) => withBase(item.url) === selectedValue)
+  if (result) return result.meta.title ?? selectedValue
 
   const page = pages.find((item) => withBase(item.href) === selectedValue)
-  return `Go to the ${page?.title ?? selectedValue} page`
+  const post = posts.find((item) => withBase(item.href) === selectedValue)
+  return page?.title ?? post?.title ?? selectedValue
 }
 
 export default function Search({ pages, posts }: SearchProps) {

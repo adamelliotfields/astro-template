@@ -1,0 +1,62 @@
+---
+import { type CollectionEntry, getCollection } from 'astro:content'
+import Pagination from '@/components/Pagination'
+import config from '@/config.json'
+import Layout from '@/layouts/Base.astro'
+import { filterDrafts, formatDate, withBase } from '@/lib/utils'
+
+type Post = CollectionEntry<'blog'>
+
+const posts = await getCollection('blog', (entry: CollectionEntry<'blog'>) => filterDrafts(entry))
+const sortedPosts = posts.sort(
+  (a: CollectionEntry<'blog'>, b: CollectionEntry<'blog'>) =>
+    b.data.pubDate!.valueOf() - a.data.pubDate!.valueOf()
+)
+
+const { title, description } = config.pages.find((item) => item.href === '/blog')!
+---
+
+<Layout title={title} description={description}>
+  <div class="mx-auto mt-16 max-w-3xl px-6 lg:px-0">
+    <h1 class="text-3xl font-bold tracking-tighter text-foreground sm:text-4xl">
+      {title}
+    </h1>
+    <p class="mt-3 text-base text-muted-foreground">{description}</p>
+    <div class="mt-16 space-y-16 lg:border-l lg:pl-6">
+      {
+        sortedPosts.map((post: Post) => {
+          const { description: postDescription, title: postTitle, pubDate } = post.data
+          return (
+            <section class="lg:grid lg:grid-cols-[auto_1fr] lg:gap-8 lg:items-baseline" data-blog-post>
+              <time
+                datetime={pubDate!.toISOString()}
+                class="hidden text-foreground/80 text-sm lg:block"
+              >
+                {formatDate(pubDate!)}
+              </time>
+              <article>
+                <h2 class="text-base font-semibold tracking-tight text-foreground">
+                  <a href={withBase(`/blog/${post.id}`)} class="hover:underline">
+                    {postTitle}
+                  </a>
+                </h2>
+                <time
+                  datetime={pubDate!.toISOString()}
+                  class="mt-1 block text-foreground/80 text-sm lg:hidden"
+                >
+                  {formatDate(pubDate!)}
+                </time>
+                <p class="mt-1 text-muted-foreground text-sm">{postDescription}</p>
+              </article>
+            </section>
+          )
+        })
+      }
+    </div>
+    <Pagination
+      client:load
+      pathname={Astro.url.pathname}
+      totalItems={sortedPosts.length}
+    />
+  </div>
+</Layout>

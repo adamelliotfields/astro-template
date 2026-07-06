@@ -1,0 +1,17 @@
+---
+title: Dark Mode
+description: How dark mode is applied kept in sync.
+pubDate: 2026-01-10
+---
+
+Dark mode is split between a tiny browser script and a React toggle. The split keeps the first paint correct while still giving visitors an interactive control once the page hydrates.
+
+The early script in `public/theme.js` runs before the app becomes interactive. It reads the saved `dark` value from `localStorage`, falls back to `prefers-color-scheme` when no preference is saved, and toggles the `dark` class on the root `<html>` element. Tailwind's dark-mode styles can then apply immediately, avoiding a flash of the wrong theme.
+
+The same script also writes the current choice to `data-theme`. There are three states:
+
+- `dark` saves `true` in `localStorage.dark`.
+- `light` saves `false` in `localStorage.dark`.
+- `system` removes the saved preference and follows the operating system.
+
+`src/components/Theme.tsx` is the hydrated control in the header. It reads `document.documentElement.dataset.theme`, watches that attribute with a `MutationObserver`, and cycles through `system`, `light`, and `dark` when clicked. The component does not write to `localStorage` directly; it only updates `data-theme`. The browser script observes that attribute change, validates the value, persists it, and updates the root `dark` class.

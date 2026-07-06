@@ -1,0 +1,47 @@
+---
+title: Embedding GitHub Gists
+description: A small MDX demo for embedding GitHub Gists with an Astro component.
+pubDate: 2026-01-13
+---
+
+import Gist from '@/components/Gist.astro'
+
+GitHub's embed UI gives you a script tag like this:
+
+```html
+<script src="https://gist.github.com/adamelliotfields/54be9c954206ed7c1d46aeec4c0aad44.js"></script>
+```
+
+The `Gist` component fetches GitHub's JSON embed at build time and renders it inside an `astro-gist` custom element with a shadow root, so GitHub's styles stay isolated from the rest of the page:
+
+```jsx
+<Gist src="https://gist.github.com/adamelliotfields/54be9c954206ed7c1d46aeec4c0aad44.js" />
+```
+
+<Gist src="https://gist.github.com/adamelliotfields/54be9c954206ed7c1d46aeec4c0aad44.js" />
+
+You can also pass the username and Gist ID separately:
+
+```jsx
+<Gist user="adamelliotfields" id="54be9c954206ed7c1d46aeec4c0aad44" />
+```
+
+For a multi-file Gist, pass `file` to only embed one file:
+
+```jsx
+<Gist user="adamelliotfields" id="54be9c954206ed7c1d46aeec4c0aad44" file="aspect_ratio.py" />
+```
+
+## Multiple Files
+
+Here is a multi-file Gist with a rendered Markdown file and a raw Astro file:
+
+```jsx
+<Gist src="https://gist.github.com/delucis/0b44f4ff0397767b2416cc981692c346.js" />
+```
+
+<Gist src="https://gist.github.com/delucis/0b44f4ff0397767b2416cc981692c346.js" />
+
+## Dark Mode
+
+Flashbang! :boom: Embedded GitHub Gists do not have a dark theme available.

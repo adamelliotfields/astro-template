@@ -1,0 +1,49 @@
+---
+import { ArrowLeft, Home } from 'lucide-react'
+import { buttonVariants } from '@/components/ui/button'
+import Layout from '@/layouts/Base.astro'
+import { withBase } from '@/lib/utils'
+
+export const title = 'Page not found'
+export const description =
+  'This page has drifted out of the index. Try the homepage or browse the latest posts.'
+---
+
+<Layout title={title} description={description}>
+  <div class="mx-auto mt-16 max-w-3xl px-6 lg:px-0">
+    <section aria-labelledby="not-found-heading" class="py-10 sm:py-16">
+      <p class="font-medium text-muted-foreground text-sm uppercase tracking-wide">
+        404
+      </p>
+      <h1
+        id="not-found-heading"
+        class="mt-4 text-4xl font-bold tracking-tighter text-foreground sm:text-5xl"
+      >
+        Nothing to see here.
+        <br />
+        Even the logs are quiet.
+      </h1>
+      <p class="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground">
+        {description}
+      </p>
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+        <a
+          href={withBase('/')}
+          class={buttonVariants({ size: 'lg', className: 'rounded-md px-4 shadow' })}
+        >
+          <Home className="mr-2 h-4 w-4" />
+          Go home
+        </a>
+        <a
+          href={withBase('/blog')}
+          class={buttonVariants({ variant: 'ghost', size: 'lg', className: 'group rounded-md px-4' })}
+        >
+          <ArrowLeft
+            className="mr-1 h-4 w-4 transition-transform group-hover:-translate-x-0.5"
+          />
+          Read the blog
+        </a>
+      </div>
+    </section>
+  </div>
+</Layout>

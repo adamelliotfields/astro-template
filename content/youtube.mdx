@@ -1,0 +1,31 @@
+---
+title: Embedding YouTube Videos
+description: A small MDX demo for embedding YouTube videos with an Astro component.
+pubDate: 2026-01-12
+---
+
+import YouTube from '@/components/YouTube.astro'
+
+The `YouTube` component accepts a video ID or YouTube URL and normalizes them to a privacy-enhanced `youtube-nocookie.com` embed inside an `astro-youtube` custom element with a shadow root. The thumbnail image, if available, is displayed while the video is loading:
+
+```jsx
+<YouTube id="mgkwZqVkrwo" />
+```
+
+<YouTube id="mgkwZqVkrwo" />
+
+You can also start at an offset in seconds:
+
+```jsx
+<YouTube id="mgkwZqVkrwo" start={155} />
+```
+
+<YouTube id="mgkwZqVkrwo" start={155} />
+
+Here's what a portrait aspect Short looks like:
+
+```jsx
+<YouTube src="https://youtube.com/shorts/aXcuz6fn8_w" />
+```
+
+<YouTube src="https://youtube.com/shorts/aXcuz6fn8_w" />

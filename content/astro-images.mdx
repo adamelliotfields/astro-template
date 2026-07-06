@@ -1,0 +1,126 @@
+---
+title: Astro Images
+description: A smoke test for Astro's Image and Picture components inside MDX.
+pubDate: 2026-01-11
+---
+
+import { Image, Picture } from 'astro:assets'
+import astronaut from '../src/assets/astronaut.jpg'
+
+This post verifies that Astro's asset components render correctly from MDX using a local JPEG image.
+
+The image was generated using [sd-cli](https://github.com/leejet/stable-diffusion.cpp) with [Krea 2 Turbo](https://huggingface.co/krea/Krea-2-Turbo) at 1368x768, upscaled by [Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN), seed `426479406`, and the prompt:
+
+> _A lone astronaut in a white EVA suit walks through a colorful alien valley under a giant ringed planet. The astronaut is small in the lower left third of the frame, leaving footprints in violet sand. The alien ground has turquoise mineral terraces, coral-orange cliffs, reflective shallow pools, and clusters of glowing blue and pink plants. A warm golden habitat dome shines far away on the horizon._
+
+## Source Image to WebP
+
+The [`Image`](https://docs.astro.build/en/guides/images/#image-) component accepts a local ESM image import, requires `alt`, and can convert a source image to a modern output format at build time.
+
+```jsx
+<Image
+  src={astronaut}
+  alt="Astronaut walking through a colorful alien valley under a ringed planet"
+  width={768}
+  format="webp"
+  quality="high"
+  layout="constrained"
+/>
+```
+
+<Image
+  src={astronaut}
+  alt="Astronaut walking through a colorful alien valley under a ringed planet"
+  width={768}
+  format="webp"
+  quality="high"
+  layout="constrained"
+/>
+
+## Responsive Widths
+
+The same source image can generate multiple build-time widths. These `sizes` values match the blog article layout: 768px on large screens, about 720px on tablet-sized screens, and the viewport minus horizontal padding on small screens.
+
+```jsx
+<Image
+  src={astronaut}
+  alt="Responsive astronaut landscape generated from one source image"
+  widths={[360, 720, 768, 1024, 1536]}
+  sizes="(min-width: 1024px) 768px, (min-width: 768px) 720px, calc(100vw - 3rem)"
+  format="webp"
+  quality="high"
+  layout="constrained"
+/>
+```
+
+<Image
+  src={astronaut}
+  alt="Responsive astronaut landscape generated from one source image"
+  widths={[360, 720, 768, 1024, 1536]}
+  sizes="(min-width: 1024px) 768px, (min-width: 768px) 720px, calc(100vw - 3rem)"
+  format="webp"
+  quality="high"
+  layout="constrained"
+/>
+
+## Picture Formats
+
+[`Picture`](https://docs.astro.build/en/guides/images/#picture-) wraps generated sources in a `picture` element, so browsers can choose AVIF or WebP before falling back to JPG.
+
+```jsx
+<Picture
+  src={astronaut}
+  alt="Astronaut landscape served as AVIF, WebP, or JPG"
+  formats={['avif', 'webp']}
+  fallbackFormat="jpg"
+  widths={[360, 720, 768, 1024, 1536]}
+  sizes="(min-width: 1024px) 768px, (min-width: 768px) 720px, calc(100vw - 3rem)"
+  layout="constrained"
+/>
+```
+
+<Picture
+  src={astronaut}
+  alt="Astronaut landscape served as AVIF, WebP, or JPG"
+  formats={['avif', 'webp']}
+  fallbackFormat="jpg"
+  widths={[360, 720, 768, 1024, 1536]}
+  sizes="(min-width: 1024px) 768px, (min-width: 768px) 720px, calc(100vw - 3rem)"
+  layout="constrained"
+/>
+
+## Cropping
+
+Changing `width`, `height`, `fit`, and `position` crops a new image from the same original JPEG.
+
+```jsx
+<Image
+  src={astronaut}
+  alt="Cropped astronaut portrait from the same landscape source"
+  width={384}
+  height={512}
+  format="webp"
+  fit="cover"
+  position="left"
+/>
+```
+
+<Image
+  src={astronaut}
+  alt="Cropped astronaut portrait from the same landscape source"
+  width={384}
+  height={512}
+  format="webp"
+  fit="cover"
+  position="left"
+/>
+
+## Sharp Props
+
+Astro uses [Sharp](https://github.com/lovell/sharp) for local image optimization in this build. The component props become Sharp transform options during build:
+
+- `format` selects the output encoder, such as `webp`, `avif`, or `jpg`.
+- `quality` is translated by Astro before encoding; `high` maps to a numeric quality value.
+- `width`, `height`, and `widths` produce resized output files and `srcset` entries.
+- `fit="cover"` maps to Sharp's cover resize mode and crops to fill the requested dimensions.
+- `position` is passed to Sharp as resize gravity: `left`, `right`, `top`, `bottom`, or `center`.

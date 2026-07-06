@@ -1,0 +1,17 @@
+---
+title: Internal and External Links
+description: Demonstrating the difference with various link types.
+pubDate: 2026-01-07
+---
+
+## Internal
+
+Internal links point to pages generated at build time like [home](../), [blog](../blog), [about](../about), and [resume](../resume).
+
+When writing internal links, prefer using relative links like `../about` instead of `/about`. This ensures links always point to the correct destination.
+
+## External
+
+External links start with a protocol like [home](https://aef.me/astro-template/) or the Astro [docs](https://docs.astro.build/en/getting-started/). These links are processed by [`rehype-external-links`](https://github.com/rehypejs/rehype-external-links) and open a new browser tab via `target="_blank"`.
+
+An SVG external link icon is appended with `aria-hidden="true"` and `aria-label="opens in a new tab"` added to the anchor element, so assistive technology users are made aware before clicking.

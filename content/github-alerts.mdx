@@ -1,0 +1,50 @@
+---
+title: GitHub Alerts
+description: Using GitHub's custom blockquote alerts in Markdown.
+pubDate: 2026-01-05
+---
+
+GitHub supports five Markdown [alerts](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts) which are also known as _callouts_ or _admonitions_:
+
+> [!NOTE]
+> Useful information that users should know, even when skimming content.
+
+> [!TIP]
+> Helpful advice for doing things better or more easily.
+
+> [!IMPORTANT]
+> Key information users need to know to achieve their goal.
+
+> [!WARNING]
+> Urgent info that needs immediate user attention to avoid problems.
+
+> [!CAUTION]
+> Advises about risks or negative outcomes of certain actions.
+
+We use [`remark-github-blockquote-alert`](https://github.com/jaywcjlove/remark-github-blockquote-alert) to display them.
+
+## Titles
+
+The titles are uppercase by default:
+
+```markdown
+> [!NOTE]
+> This is a note.
+```
+
+> [!NOTE]
+> This is a note.
+
+You can use a custom title like this:
+
+```markdown
+> [!NOTE/Note]
+> This note has a title-cased title.
+```
+
+> [!NOTE/Note]
+> This note has a title-cased title.
+
+## Styles
+
+The alert styles are in `src/styles/alerts.css`.

@@ -1,0 +1,51 @@
+---
+title: Heading Anchors
+description: Creating links for headings and table of contents.
+pubDate: 2026-01-08
+---
+
+We use [`rehype-autolink-headings`](https://github.com/rehypejs/rehype-autolink-headings) to generate anchor links for headings in posts.
+
+## Markdown
+
+Astro's built-in Markdown processor is [Satteri](https://github.com/bruits/satteri), which has its own plugin model.
+
+This site uses [Unified](https://github.com/unifiedjs/unified) ([`remark`](https://github.com/remarkjs/remark) + [`rehype`](https://github.com/rehypejs/rehype)) for its rich plugin ecosystem.
+
+## Heading IDs
+
+Astro normally injects the ID attributes _after_ custom plugins. Since the autolink headings plugin requires those IDs, we use the Astro plugin manually:
+
+```ts
+import { rehypeHeadingIds, unified } from '@astrojs/markdown-remark'
+import { defineConfig } from 'astro/config'
+import rehypeAutolinkHeadings from 'rehype-autolink-headings'
+
+export default defineConfig({
+  markdown: {
+    processor: unified({
+      rehypePlugins: [
+        rehypeHeadingIds,
+        rehypeAutolinkHeadings
+      ]
+    })
+  }
+})
+```
+
+See [_Heading IDs and Plugins_](https://docs.astro.build/en/guides/markdown-content/#heading-ids-and-plugins) for more.
+
+## Table of Contents
+
+To generate the table of contents using the same heading IDs:
+
+```ts
+import { render } from 'astro:content'
+
+const { post } = Astro.props
+const { headings } = await render(post)
+
+const tableOfContents = headings
+  .filter(({ depth }) => depth > 1 && depth < 4)
+  .map((heading) => ({ ...heading, text: heading.text.replace(/#$/, '').trim() }))
+```

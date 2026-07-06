@@ -1,0 +1,50 @@
+---
+title: OpenGraph and X Images
+description: All pages and posts get automatic social sharing images using Satori and Resvg.
+pubDate: 2026-01-14
+---
+
+Social sharing images are easy to forget until a link shows up in Slack, Messages, or X with a generic preview. This site generates OpenGraph and X card images for every page and blog post automatically.
+
+<img src="../og/blog/opengraph.png" />
+
+## Endpoint
+
+The image route lives at `src/pages/og/[...slug].png.ts`. It is a static Astro [endpoint](https://docs.astro.build/en/guides/endpoints/), so each image is generated at build time from the same page and post metadata used by the site itself.
+
+## Metadata
+
+For top-level pages, the source-of-truth is `src/config.json`:
+
+```json
+{
+  "href": "/about",
+  "title": "About",
+  "description": "I write about distributed systems, reliability, and the engineering work that keeps busy products boring."
+}
+```
+
+For posts, the title and description come from frontmatter. The route combines both sources in [`getStaticPaths`](https://docs.astro.build/en/reference/routing-reference/#getstaticpaths).
+
+## React
+
+The renderer is a small two-step pipeline:
+
+1. [Satori](https://github.com/vercel/satori) turns a React-like tree into an SVG.
+2. [Resvg](https://github.com/linebender/resvg) turns that SVG into a PNG response.
+
+## Styles
+
+Satori supports Tailwind-style `tw` classes, which keeps the image layout close to normal component styling.
+
+The current design uses a dark gradient, a subtle SVG grid, the site logo, the title, the description, and the canonical URL for the page. The color palette is from `src/styles/globals.css`.
+
+## Fonts
+
+Fonts are fetched from [Fontsource](https://fontsource.org) via the [jsDelivr](https://www.jsdelivr.com) CDN as remote `.woff` files instead of relying on local `node_modules` assets. This is because we use WOFF2 variable-weight fonts for the site, and Satori only supports static-weight WOFF.
+
+## Layout
+
+Each page does not need to know how the image is made. The `Base.astro` layout uses [`astro-seo`](https://github.com/jonasmerlin/astro-seo) to point social metadata at the generated PNG, and Astro emits static image files during the build.
+
+The result is that every page and post gets a share image by default, including 404 pages, with no image design work required.

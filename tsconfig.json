@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "astro/tsconfigs/strictest",
+  "exclude": ["dist", "node_modules"],
+  "include": ["**/*.astro", "**/*.mdx", "**/*.d.ts", "**/*.ts", "**/*.tsx"],
+  "compilerOptions": {
+    "types": ["*"],
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
+    "exactOptionalPropertyTypes": false
+  }
+}

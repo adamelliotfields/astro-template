@@ -1,0 +1,63 @@
+---
+export interface Props {
+  id?: string
+  src?: string
+  start?: number
+}
+
+const { id, src, start } = Astro.props
+
+const styles = `
+  iframe {
+    aspect-ratio: 16 / 9;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: 0;
+    border-radius: var(--prose-radius, var(--radius));
+    display: block;
+    width: 100%;
+  }
+`
+
+function getYouTubeId(idOrUrl: string): string | null | undefined {
+  if (/^[A-Za-z0-9_-]{11}$/.test(idOrUrl)) return idOrUrl
+
+  const url = new URL(idOrUrl)
+  const hostname = url.hostname.replace(/^www\./, '')
+
+  if (hostname === 'youtu.be') return url.pathname.split('/').filter(Boolean)[0]
+
+  if (hostname === 'youtube.com' || hostname.endsWith('.youtube.com')) {
+    if (url.pathname === '/watch') return url.searchParams.get('v')
+    const [, type, videoId] = url.pathname.split('/')
+    if (type && videoId && ['embed', 'live', 'shorts'].includes(type)) return videoId
+  }
+
+  return undefined
+}
+
+const videoId = getYouTubeId(src || id || '')
+const embedUrl = new URL(`/embed/${videoId}`, 'https://www.youtube-nocookie.com')
+if (start) embedUrl.searchParams.set('start', String(start))
+---
+
+{
+  videoId && (
+    <astro-youtube class="not-prose">
+      <template shadowrootmode="open">
+        <style set:html={styles} />
+        <iframe
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen={true}
+          loading="lazy"
+          referrerpolicy="strict-origin-when-cross-origin"
+          sandbox="allow-same-origin allow-scripts allow-presentation allow-popups"
+          src={embedUrl.toString()}
+          style={`background-image: url("https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg")`}
+          title="YouTube video player"
+        ></iframe>
+      </template>
+    </astro-youtube>
+  )
+}

@@ -1,0 +1,57 @@
+---
+title: Math Rendering
+description: Verifying inline and display math render correctly.
+pubDate: 2026-01-03
+---
+
+This post checks that math rendering works via [`remark-math`](https://github.com/remarkjs/remark-math) and [`rehype-mathjax`](https://github.com/remarkjs/remark-math/tree/main/packages/rehype-mathjax).
+
+## Inline math
+
+[Euler's identity](https://en.wikipedia.org/wiki/Euler%27s_identity) equation $e^{i\pi} + 1 = 0$ should render inline, as should the quadratic formula $x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$ and a simple sum like $\sum_{i=1}^{n} i = \frac{n(n+1)}{2}$.
+
+Inline math should flow naturally with text: the time complexity of merge sort is $O(n \log n)$, which beats bubble sort's $O(n^2)$.
+
+## Display math
+
+A standalone integral:
+
+$$
+\int_{-\infty}^{\infty} e^{-x^2} \, dx = \sqrt{\pi}
+$$
+
+Maxwell's equations in differential form using `&=` for alignment:
+
+$$
+\begin{aligned}
+\nabla \cdot \mathbf{E} &= \frac{\rho}{\varepsilon_0} \\
+\nabla \cdot \mathbf{B} &= 0 \\
+\nabla \times \mathbf{E} &= -\frac{\partial \mathbf{B}}{\partial t} \\
+\nabla \times \mathbf{B} &= \mu_0 \mathbf{J} + \mu_0 \varepsilon_0 \frac{\partial \mathbf{E}}{\partial t}
+\end{aligned}
+$$
+
+And a matrix using ```` ```math ```` instead of `$$`:
+
+```math
+\begin{pmatrix} a & b \\ c & d \end{pmatrix}^{-1}
+= \frac{1}{ad - bc} \begin{pmatrix} d & -b \\ -c & a \end{pmatrix}
+```
+
+## Rendering
+
+This site uses [MathJax](https://github.com/mathjax/MathJax) through `rehype-mathjax`, which renders each formula as a SVG where every glyph is drawn as `path` elements. The `stroke` and `fill` use `currentColor` making them theme-aware automatically. The equations do not depend on a math font being available in the browser, and they look consistent across platforms.
+
+[KaTeX](https://github.com/KaTeX/KaTeX) takes a different approach. It lays out math with HTML, CSS, external stylesheets, and web fonts. That usually makes KaTeX very fast and lightweight at runtime, but it also means the page needs the KaTeX CSS and font files to look right. MathJax does provide a CommonHTML renderer, but the default when using the Rehype plugin is SVG.
+
+In practice, MathJax is the more complete TeX-like renderer and is well suited for broad notation support. KaTeX is often preferred when startup speed, smaller output, and font-based rendering are the priority.
+
+## Dollars
+
+Because `singleDollarTextMath` is set to `true`, all text between two dollar signs (`$...$`) on the same line will be treated as inline math:
+
+> The price is between $50 and $100.
+
+You can either set it to `false` or escape (`\$`) the dollar signs:
+
+> The price is between \$50 and \$100.

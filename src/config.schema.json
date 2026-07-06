@@ -1,0 +1,224 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Config",
+  "type": "object",
+  "required": [
+    "name",
+    "email",
+    "website",
+    "github",
+    "twitter",
+    "origin",
+    "pages",
+    "socials",
+    "resume"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string",
+      "description": "Primary site owner or author name."
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "Public contact email address for the site owner."
+    },
+    "website": {
+      "type": "string",
+      "description": "Personal website domain for the site owner."
+    },
+    "github": {
+      "type": "string",
+      "description": "GitHub username for the site owner."
+    },
+    "twitter": {
+      "type": "string",
+      "description": "Twitter username for the site owner."
+    },
+    "origin": {
+      "type": "string",
+      "format": "uri",
+      "description": "Canonical site origin used for absolute URLs, SEO metadata, and feeds."
+    },
+    "pages": {
+      "type": "array",
+      "description": "Metadata for site pages, used for titles, descriptions, and route lookups.",
+      "items": {
+        "type": "object",
+        "description": "Page metadata for a single route.",
+        "required": ["href", "title", "description"],
+        "properties": {
+          "href": {
+            "type": "string",
+            "description": "Route path for the page."
+          },
+          "title": {
+            "type": "string",
+            "description": "Human-readable page title used in navigation and metadata."
+          },
+          "description": {
+            "type": "string",
+            "description": "Short page summary used for SEO metadata and previews."
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "socials": {
+      "type": "array",
+      "description": "Social, feed, and external profile links shown by the site.",
+      "items": {
+        "type": "object",
+        "description": "A single social or external profile link.",
+        "required": ["href", "title"],
+        "properties": {
+          "href": {
+            "type": "string",
+            "description": "URL or internal path for the social link."
+          },
+          "title": {
+            "type": "string",
+            "description": "Display label for the social link."
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "resume": {
+      "type": "object",
+      "description": "Structured resume content rendered on the resume page.",
+      "required": ["title", "summary", "location", "experience", "projects", "education"],
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Professional headline shown below the resume name."
+        },
+        "summary": {
+          "type": "string",
+          "description": "Brief professional summary shown near the top of the resume."
+        },
+        "location": {
+          "type": "string",
+          "description": "Current location or remote availability shown in the resume header."
+        },
+        "experience": {
+          "type": "array",
+          "description": "Work history entries shown in the resume experience section.",
+          "items": {
+            "type": "object",
+            "description": "A single professional experience entry.",
+            "required": ["role", "company", "href", "context", "period", "place", "points", "tech"],
+            "properties": {
+              "role": {
+                "type": "string",
+                "description": "Job title or role held at the company."
+              },
+              "company": {
+                "type": "string",
+                "description": "Company or organization name."
+              },
+              "href": {
+                "type": "string",
+                "description": "Company or organization website URL."
+              },
+              "context": {
+                "type": "string",
+                "description": "Short context label describing the company, product, or team."
+              },
+              "period": {
+                "type": "string",
+                "description": "Date range for the role."
+              },
+              "place": {
+                "type": "string",
+                "description": "Location or work arrangement for the role."
+              },
+              "points": {
+                "type": "array",
+                "description": "Impact bullets or responsibilities for the role.",
+                "items": {
+                  "type": "string",
+                  "description": "A single experience bullet point."
+                }
+              },
+              "tech": {
+                "type": "array",
+                "description": "Technologies, languages, and tools used in the role.",
+                "items": {
+                  "type": "string",
+                  "description": "A single technology, language, or tool label."
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "projects": {
+          "type": "array",
+          "description": "Selected projects shown in the resume projects section.",
+          "items": {
+            "type": "object",
+            "description": "A single selected project entry.",
+            "required": ["name", "href", "tag", "description"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Project name shown in the projects section."
+              },
+              "href": {
+                "type": "string",
+                "description": "Project URL."
+              },
+              "tag": {
+                "type": "string",
+                "description": "A short technology or category label for the project."
+              },
+              "description": {
+                "type": "string",
+                "description": "Brief summary of the project and its purpose."
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "education": {
+          "type": "array",
+          "description": "Education entries shown in the resume education section.",
+          "items": {
+            "type": "object",
+            "description": "A single education entry.",
+            "required": ["degree", "school", "href", "period", "details"],
+            "properties": {
+              "degree": {
+                "type": "string",
+                "description": "Degree, certification, or program name."
+              },
+              "school": {
+                "type": "string",
+                "description": "School or institution name."
+              },
+              "href": {
+                "type": "string",
+                "description": "School or institution website URL."
+              },
+              "period": {
+                "type": "string",
+                "description": "Date range for the education entry."
+              },
+              "details": {
+                "type": "string",
+                "description": "Additional education detail, such as minor, focus area, or honors."
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

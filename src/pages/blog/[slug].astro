@@ -1,0 +1,120 @@
+---
+import { type CollectionEntry, getCollection, render } from 'astro:content'
+import type { GetStaticPaths } from 'astro'
+import { Calendar, Clock } from 'lucide-react'
+import getReadingTime from 'reading-time'
+
+import Layout from '@/layouts/Base.astro'
+import { filterDrafts, formatDate, withBase } from '@/lib/utils'
+
+type Post = CollectionEntry<'blog'>
+
+export type Props = {
+  nextPost?: Post
+  post: Post
+  previousPost?: Post
+}
+
+const { nextPost, post, previousPost } = Astro.props
+const { Content, headings } = await render(post)
+const { title, description, pubDate } = post.data
+const time = getReadingTime(post.body ?? '').text
+
+const tableOfContents = headings
+  .filter(({ depth }) => depth > 1 && depth < 4)
+  .map((heading) => ({ ...heading, text: heading.text.replace(/#$/, '').trim() }))
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const posts = await getCollection('blog', (entry) => filterDrafts(entry))
+  const sortedPosts = posts.sort((a, b) => b.data.pubDate!.valueOf() - a.data.pubDate!.valueOf())
+
+  return sortedPosts.map((post, index) => ({
+    params: { slug: post.id },
+    props: {
+      nextPost: sortedPosts[index - 1],
+      post,
+      previousPost: sortedPosts[index + 1]
+    }
+  }))
+}
+---
+
+<Layout title={title} description={description}>
+  <div class="mx-auto mt-16 max-w-3xl px-6 lg:px-0">
+    <div>
+      <h1 class="text-3xl font-bold tracking-tighter">
+        {title}
+      </h1>
+      <div class="mt-3 flex items-center text-muted-foreground text-sm">
+        <Calendar
+          className="-mt-0.5 mr-2"
+          width="1em"
+          height="1em"
+          strokeWidth={1.75}
+        />
+        <time class="font-mono tracking-tight" datetime={pubDate.toISOString()}>
+          {formatDate(pubDate!)}
+        </time>
+        <span class="mx-2">|</span>
+        <Clock
+          className="-mt-0.5 mr-2"
+          width="1em"
+          height="1em"
+          strokeWidth={1.75}
+        />
+        <span class="font-mono tracking-tight">{time}</span>
+      </div>
+    </div>
+    {
+      tableOfContents.length > 0 && (
+        <details class="mt-8 rounded-md border bg-card px-4 py-2 text-card-foreground">
+          <summary class="cursor-pointer font-medium text-base tracking-tight">Table of contents</summary>
+          <nav aria-label="Table of contents" class="mt-4">
+            <ol class="space-y-2 text-muted-foreground text-sm">
+              {tableOfContents.map((contents) => (
+                <li class:list={[contents.depth === 3 && 'pl-4']}>
+                  <a class="transition-colors hover:text-foreground" href={`#${contents.slug}`}>
+                    {contents.text}
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </nav>
+        </details>
+      )
+    }
+    <article
+      class="prose mt-8 font-serif prose-a:text-foreground prose-a:no-underline prose-a:hover:underline dark:prose-invert"
+      data-pagefind-body
+    >
+      <Content />
+    </article>
+    {
+      (previousPost || nextPost) && (
+        <nav
+          aria-label="Blog post navigation"
+          class="mt-16 grid gap-4 sm:grid-cols-2"
+        >
+          {previousPost && (
+            <a
+              href={withBase(`/blog/${previousPost.id}`)}
+              class="rounded-md border p-4 transition-colors hover:bg-muted"
+            >
+              <span class="block text-muted-foreground text-sm">Previous</span>
+              <span class="mt-1 block font-medium tracking-tight">{previousPost.data.title}</span>
+            </a>
+          )}
+          {nextPost && (
+            <a
+              href={withBase(`/blog/${nextPost.id}`)}
+              class="rounded-md border p-4 text-right transition-colors hover:bg-muted sm:col-start-2"
+            >
+              <span class="block text-muted-foreground text-sm">Next</span>
+              <span class="mt-1 block font-medium tracking-tight">{nextPost.data.title}</span>
+            </a>
+          )}
+        </nav>
+      )
+    }
+  </div>
+</Layout>

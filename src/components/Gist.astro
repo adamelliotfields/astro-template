@@ -1,0 +1,75 @@
+---
+export interface Props {
+  id?: string
+  user?: string
+  file?: string
+  src?: string
+}
+
+type GistResponse = {
+  description: string
+  created_at: string
+  files: string[]
+  owner: string
+  stylesheet: string
+  div: string
+}
+
+const { id, user, file, src } = Astro.props
+
+const styles = `
+  :host {
+    --base-text-weight-normal: 400;
+    --base-text-weight-semibold: 600;
+    --borderRadius-medium: var(--radius);
+    --borderWidth-thin: 1px;
+    --bgColor-default: var(--card);
+    --color-canvas-default: var(--card);
+    --color-fg-default: var(--foreground);
+    --color-fg-muted: var(--muted-foreground);
+    --color-fg-subtle: var(--muted-foreground);
+    --fontStack-monospace: var(--font-mono);
+    --fontStack-sansSerif: var(--font-sans);
+    --fontStack-system: var(--font-sans);
+    --text-body-size-small: 0.75rem;
+    --text-title-size-small: 0.75rem;
+  }
+  .gist-data {
+    padding-top: 0.75em;
+    padding-bottom: 0.75em;
+    padding-inline-start: 1em;
+    padding-inline-end: 1em;
+  }
+`
+
+function getGistUrl() {
+  if (src) return new URL(src.replace(/\.js$/, '.json'))
+  if (!id) throw new Error('Gist requires either an id or src prop')
+
+  return new URL(user ? `/${user}/${id}.json` : `/${id}.json`, 'https://gist.github.com')
+}
+
+async function fetchGist(url: URL) {
+  if (file) url.searchParams.set('file', file)
+
+  const response = await fetch(url)
+  if (!response.ok) return undefined
+
+  return (await response.json()) as GistResponse
+}
+
+const gistUrl = getGistUrl()
+const gist = await fetchGist(gistUrl)
+---
+
+{
+  gist && (
+    <astro-gist class="not-prose">
+      <template shadowrootmode="open">
+        <link rel="stylesheet" href={gist.stylesheet} />
+        <style set:html={styles} />
+        <Fragment set:html={gist.div} />
+      </template>
+    </astro-gist>
+  )
+}

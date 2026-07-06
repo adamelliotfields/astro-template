@@ -1,0 +1,19 @@
+---
+title: Draft
+description: This post will only render in development mode.
+pubDate: 2026-01-01
+draft: true
+---
+
+This is a draft post. It has `draft: true` in its frontmatter.
+
+When rendering posts, we use the `filterDrafts` utility function to ensure it is not included in production builds:
+
+```ts
+export function filterDrafts(entry: CollectionEntry<'blog'>): boolean {
+  const isDraft = import.meta.env.PROD ? (entry as CollectionEntry<'blog'>).data.draft === true : false
+  return !isDraft
+}
+```
+
+Because Pagefind search depends on the site being built, draft posts won't be indexed.

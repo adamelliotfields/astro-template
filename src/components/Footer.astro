@@ -1,0 +1,37 @@
+---
+import { Rss } from 'lucide-react'
+
+import config from '@/config.json'
+import GitHub from '@/icons/GitHub'
+import LinkedIn from '@/icons/LinkedIn'
+import X from '@/icons/X'
+import { withBase } from '@/lib/utils'
+
+const icons = { GitHub, LinkedIn, X, Rss }
+const links = config.socials.map(({ href, title }) => ({
+  title,
+  href: withBase(href),
+  Icon: icons[title as keyof typeof icons]
+}))
+---
+
+<footer class="mt-32 print:hidden">
+  <div class="mx-auto max-w-3xl border-t px-6 lg:px-0">
+    <div class="flex flex-col-reverse items-center gap-6 py-10 sm:flex-row sm:justify-between">
+      <p class="text-muted-foreground text-sm">&copy; {new Date().getFullYear()} {config.name}</p>
+      <nav class="flex items-center gap-5" aria-label="Footer">
+        {
+          links.map(({ title, href, Icon }) => (
+            <a
+              href={href}
+              aria-label={title}
+              class="text-muted-foreground transition-colors hover:text-foreground"
+            >
+              <Icon className="size-4" strokeWidth={1.75} />
+            </a>
+          ))
+        }
+      </nav>
+    </div>
+  </div>
+</footer>

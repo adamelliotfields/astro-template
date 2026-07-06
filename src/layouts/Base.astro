@@ -1,0 +1,113 @@
+---
+import '@/styles/globals.css'
+
+import { type CollectionEntry, getCollection } from 'astro:content'
+import type { ImageMetadata } from 'astro'
+import { SEO } from 'astro-seo'
+
+import favicon from '@/assets/favicon.svg'
+import Footer from '@/components/Footer.astro'
+import Header from '@/components/Header'
+import config from '@/config.json'
+import { filterDrafts, openGraphImagePath, withBase } from '@/lib/utils'
+
+type Post = CollectionEntry<'blog'>
+
+const siteName = config.name
+const { title } = Astro.props?.frontmatter ?? Astro.props
+const description = Astro.props?.frontmatter?.description ?? Astro.props?.description
+
+const { pathname } = new URL(Astro.request.url)
+const { href: canonical } = new URL(pathname, Astro.site)
+const domain = Astro.site?.host ?? new URL(Astro.request.url).host
+const titleTemplate = `%s - ${domain}`
+
+const link = [
+  { rel: 'icon', href: (favicon as unknown as ImageMetadata).src },
+  { rel: 'sitemap', href: withBase('/sitemap-index.xml') }
+]
+
+// astro-seo automatically adds a meta tag with name="robots" content="index,follow"
+const meta = [
+  { name: 'viewport', content: 'initial-scale=1,width=device-width' },
+  { name: 'theme-color', content: 'var(--background)' }
+]
+
+// OpenGraph
+const { href: image } = new URL(withBase(openGraphImagePath(pathname)), Astro.site)
+
+const openGraph = {
+  basic: {
+    title,
+    image,
+    url: canonical,
+    type: 'website'
+  },
+  optional: {
+    siteName,
+    description
+  },
+  image: {
+    width: 1200,
+    height: 630,
+    alt: title,
+    type: 'image/png'
+  }
+}
+
+const twitter = {
+  title,
+  description,
+  image,
+  imageAlt: title,
+  creator: `@${config.twitter}`, // author's X handle
+  site: `@${config.twitter}`, // site's X handle
+  card: 'summary_large_image' as const
+}
+
+const collectionPosts = await getCollection('blog', (entry: CollectionEntry<'blog'>) =>
+  filterDrafts(entry)
+)
+const sortedPosts = collectionPosts.sort(
+  (a: Post, b: Post) => b.data.pubDate!.valueOf() - a.data.pubDate!.valueOf()
+)
+const posts = sortedPosts.map((post: Post) => ({
+  href: `/blog/${post.id}`,
+  title: post.data.title
+}))
+---
+
+<!doctype html>
+<html
+  lang="en"
+  class="h-full antialiased [font-synthesis:none] [text-rendering:optimizeLegibility]"
+>
+  <head>
+    <SEO
+      charset="utf-8"
+      title={title}
+      titleTemplate={titleTemplate}
+      description={description}
+      canonical={canonical}
+      openGraph={openGraph}
+      twitter={twitter}
+      extend={{ link, meta }}
+    />
+    {
+      import.meta.env.DEV ? (
+        <script src={withBase('/theme.js')} is:inline></script>
+      ) : (
+        <script src={withBase('/theme.min.js')} is:inline></script>
+      )
+    }
+  </head>
+  <body class="h-full">
+    <div class="h-full flex flex-col">
+      <Header pages={config.pages} posts={posts} client:idle />
+      <main class="flex-auto pt-20 print:pt-0">
+        <slot />
+      </main>
+      <Footer />
+    </div>
+  </body>
+</html>

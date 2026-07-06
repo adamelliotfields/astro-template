@@ -1,0 +1,115 @@
+{
+  "$schema": "./config.schema.json",
+  "name": "Wren Maddox",
+  "email": "me@wren.dev",
+  "website": "wren.dev",
+  "github": "wrenmaddox",
+  "twitter": "wrenmaddox",
+  "origin": "https://aef.me/astro-template",
+  "pages": [
+    {
+      "href": "/",
+      "title": "Home",
+      "description": "Essays on frontend craft, backend reliability, and the discipline of shipping something readable every week. Written slowly, published anyway."
+    },
+    {
+      "href": "/blog",
+      "title": "Blog",
+      "description": "I write about distributed systems, reliability, and the engineering work that keeps busy products boring."
+    },
+    {
+      "href": "/about",
+      "title": "About",
+      "description": "Distributed systems, reliability work, and building infrastructure that stays calm under pressure."
+    },
+    {
+      "href": "/resume",
+      "title": "Resume",
+      "description": "Professional resume for Staff software engineer Wren Maddox."
+    }
+  ],
+  "socials": [
+    { "href": "https://github.com/wrenmaddox", "title": "GitHub" },
+    { "href": "https://linkedin.com/in/wrenmaddox", "title": "LinkedIn" },
+    { "href": "https://x.com/wrenmaddox", "title": "X" },
+    { "href": "/rss.xml", "title": "Rss" }
+  ],
+  "resume": {
+    "title": "Staff Software Engineer · Distributed Systems",
+    "summary": "Staff engineer with 11+ years building the infrastructure that keeps high-traffic systems alive. I take ambiguous systems problems from design doc to production and leave them more boring than I found them.",
+    "location": "Lisbon, PT (Remote)",
+    "experience": [
+      {
+        "role": "Staff Software Engineer",
+        "company": "Meridian",
+        "href": "https://meridian.dev",
+        "context": "Real-time analytics platform",
+        "period": "2021 — Present",
+        "place": "Remote",
+        "points": [
+          "Re-architected the stream-processing core, cutting p99 query latency from 1.8s to 240ms across a 4.2M events/sec firehose.",
+          "Introduced tiered hot/cold storage, trimming infrastructure spend by ~$3.1M/year with no SLA regressions.",
+          "Chair the reliability guild and authored the incident-review practice now used company-wide.",
+          "Technical mentor to six senior engineers; reviewer on every cross-team design doc."
+        ],
+        "tech": ["Rust", "Go", "Kafka", "ClickHouse", "Kubernetes"]
+      },
+      {
+        "role": "Senior Software Engineer",
+        "company": "Lumen Observability",
+        "href": "https://lumen.io",
+        "context": "Monitoring SaaS",
+        "period": "2018 — 2021",
+        "place": "Berlin, DE",
+        "points": [
+          "Built the distributed trace-ingestion pipeline from scratch — later extracted and open-sourced as riffle (8.4k stars).",
+          "Designed the sharding model that scaled the platform from 4k to 60k customers without a rewrite.",
+          "Shipped adaptive alerting that cut overnight on-call pages by 70%."
+        ],
+        "tech": ["Go", "Cassandra", "gRPC", "Prometheus"]
+      },
+      {
+        "role": "Data Engineer",
+        "company": "Glacier Labs",
+        "href": "https://glacierlabs.org",
+        "context": "Climate-science startup",
+        "period": "2013 — 2015",
+        "place": "Seattle, WA",
+        "points": [
+          "First engineering hire. Built the ingestion backbone for satellite and ground-sensor data — ~12 TB/day.",
+          "Stood up the company's first data warehouse and the dashboards the science team still runs on."
+        ],
+        "tech": ["Python", "Spark", "Airflow"]
+      }
+    ],
+    "projects": [
+      {
+        "name": "toy-raft",
+        "href": "https://github.com/wrenmaddox/toy-raft",
+        "tag": "Rust",
+        "description": "A from-scratch Raft implementation built to actually understand leader election and log replication. The part that bit me was snapshotting and log compaction."
+      },
+      {
+        "name": "plotterd",
+        "href": "https://github.com/wrenmaddox/plotterd",
+        "tag": "Zig",
+        "description": "A tiny columnar time-series store, written in Zig to get hands-on with manual memory management and a language I never touch at work."
+      },
+      {
+        "name": "blog",
+        "href": "https://wren.dev/blog",
+        "tag": "Markdown",
+        "description": "An ongoing web log working through distributed-systems papers in plain language, each with a small runnable example."
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.S. Physics",
+        "school": "University of Washington",
+        "href": "https://washington.edu",
+        "period": "2009 — 2013",
+        "details": "Minor in Computer Science"
+      }
+    ]
+  }
+}

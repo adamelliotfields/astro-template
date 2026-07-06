@@ -1,0 +1,124 @@
+---
+import { Mail } from 'lucide-react'
+
+import avatar from '@/assets/avatar.svg'
+import config from '@/config.json'
+import Layout from '@/layouts/Base.astro'
+
+const { title, description } = config.pages.find((item) => item.href === '/about')!
+
+const linkClass = 'font-medium text-foreground underline-offset-4 hover:underline'
+---
+
+<Layout title={title} description={description}>
+  <div class="mx-auto mt-16 max-w-3xl px-6 lg:px-0">
+    <h1 class="text-3xl font-bold tracking-tighter text-foreground sm:text-4xl">
+      About
+    </h1>
+
+    <div class="mt-12 grid gap-y-10 md:grid-cols-[minmax(0,1fr)_18rem] md:gap-x-16">
+      <div class="order-1 overflow-hidden rounded-sm md:hidden">
+        <img
+          class="aspect-video w-full object-cover"
+          src={avatar.src}
+          alt="Wide avatar placeholder"
+        />
+      </div>
+
+      <div class="order-2 space-y-6 text-base leading-relaxed text-muted-foreground md:order-1">
+        <p>
+          I'm Wren Maddox, a staff software engineer focused on distributed systems and reliability.
+          I like the kind of infrastructure work that makes high-traffic systems calmer: clearer
+          failure modes, less surprising latency, and fewer pages at 03:00.
+        </p>
+
+        <p>
+          My path started in physics, then moved through climate-data pipelines, payments ledgers,
+          observability, and real-time analytics. That arc left me with a bias for systems that can
+          be explained under pressure and operated by people who are already tired.
+        </p>
+
+        <p>
+          Most recently, I've been working on stream-processing and storage systems at{' '}
+          <a href="https://meridian.dev" class={linkClass}>Meridian</a>, where the job is to keep a
+          multi-million-events-per-second analytics platform fast, affordable, and uneventful. Before
+          that, I worked on trace ingestion at{' '}
+          <a href="https://lumen.io" class={linkClass}>Lumen Observability</a>, payments
+          infrastructure at <a href="https://tesserapay.com" class={linkClass}>Tessera Pay</a>, and
+          climate-science data systems at{' '}
+          <a href="https://glacierlabs.org" class={linkClass}>Glacier Labs</a>.
+        </p>
+
+        <p>
+          I mostly reach for Rust, Go, Kafka, ClickHouse, and Kubernetes these days, but I still have
+          a soft spot for Python when the problem starts as a pile of data. Outside work, I build
+          small projects to sharpen specific ideas, like{' '}
+          <a href="https://github.com/wrenmaddox/toy-raft" class={linkClass}>toy-raft</a>{' '}
+          for leader election and log replication, or{' '}
+          <a href="https://github.com/wrenmaddox/plotterd" class={linkClass}>plotterd</a>{' '}
+          for columnar time-series storage.
+        </p>
+
+        <p>
+          I live in Lisbon and work remotely. This site is where I write through distributed-systems
+          papers, production lessons, and the occasional runnable example when prose is not enough.
+        </p>
+
+        <p>
+          If you want to connect, you can{' '}
+          <a href={`mailto:${config.email}`} class={linkClass}>email</a>{' '}
+          me or follow along on{' '}
+          <a href={`https://github.com/${config.github}`} class={linkClass}>GitHub</a>.
+        </p>
+      </div>
+
+      <aside class="order-3 md:order-2">
+        <div class="w-full md:max-w-sm">
+          <div class="hidden overflow-hidden rounded-sm md:block">
+            <img
+              class="aspect-square w-full object-cover"
+              src={avatar.src}
+              alt="Square avatar placeholder"
+            />
+          </div>
+          <section class="mt-0 md:mt-8">
+            <h2 class="font-medium text-muted-foreground text-xs uppercase tracking-wide">
+              Experience
+            </h2>
+            <ol class="relative mt-4 space-y-5 border-l">
+              {
+                config.resume.experience.map((job) => (
+                  <li class="relative pl-5">
+                    <span
+                      class="absolute top-1 h-3 w-3 rounded-full border-2 border-background bg-foreground"
+                      style={{ left: '-6.5px' }}
+                    />
+                    <div class="flex items-baseline justify-between gap-2">
+                      <h3 class="font-medium text-foreground text-sm">{job.company}</h3>
+                      <span class="whitespace-nowrap text-muted-foreground text-xs">
+                        {job.period}
+                      </span>
+                    </div>
+                    <p class="text-muted-foreground text-xs">{job.role}</p>
+                  </li>
+                ))
+              }
+            </ol>
+          </section>
+          <section class="mt-10 md:mt-8">
+            <h2 class="font-medium text-muted-foreground text-xs uppercase tracking-wide">
+              Contact
+            </h2>
+            <a
+              href={`mailto:${config.email}`}
+              class="mt-4 flex items-center gap-2 text-muted-foreground text-sm transition-colors hover:text-foreground"
+            >
+              <Mail width="1em" height="1em" strokeWidth={1.75} />
+              {config.email}
+            </a>
+          </section>
+        </div>
+      </aside>
+    </div>
+  </div>
+</Layout>

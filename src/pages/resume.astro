@@ -1,0 +1,13 @@
+---
+import Component from '@/components/Resume.astro'
+import config from '@/config.json'
+import Layout from '@/layouts/Base.astro'
+
+const { title, description } = config.pages.find((item) => item.href === '/resume')!
+---
+
+<Layout title={title} description={description}>
+  <div class="mx-auto mt-16 min-h-screen max-w-3xl px-6 lg:px-0 print:mt-0">
+    <Component />
+  </div>
+</Layout>

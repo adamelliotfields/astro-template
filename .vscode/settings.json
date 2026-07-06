@@ -1,0 +1,43 @@
+{
+  "editor.rulers": [100],
+
+  "js/ts.experimental.useTsgo": true,
+  "typescript.native-preview.tsdk": "node_modules/@typescript/native-preview",
+
+  "files.exclude": {
+    ".astro/**": true,
+    "dist/**": true,
+    "node_modules/**": true
+  },
+  "files.watcherExclude": {
+    ".astro/**": true,
+    "dist/**": true,
+    "node_modules/**": true
+  },
+
+  "editor.quickSuggestions": { "strings": "on" },
+  "files.associations": { "*.css": "tailwindcss" },
+  "tailwindCSS.classAttributes": ["class", "class:list", "className"],
+  "tailwindCSS.includeLanguages": { "astro": "html" },
+
+  "[astro][tailwindcss][javascript][javascriptreact][typescript][typescriptreact]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.biome": "explicit",
+      "source.organizeImports.biome": "explicit"
+    },
+    "editor.defaultFormatter": "biomejs.biome",
+    "editor.formatOnSave": true
+  },
+
+  "[json][jsonc]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.biome": "explicit"
+    },
+    "editor.defaultFormatter": "biomejs.biome",
+    "editor.formatOnSave": true
+  },
+
+  "[markdown][mdx]": {
+    "editor.wordWrap": "on"
+  }
+}

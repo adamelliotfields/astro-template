@@ -3,12 +3,12 @@
   "title": "Config",
   "type": "object",
   "required": [
+    "origin",
     "name",
     "email",
-    "website",
     "github",
     "twitter",
-    "origin",
+    "brand",
     "pages",
     "socials",
     "resume"
@@ -16,6 +16,11 @@
   "properties": {
     "$schema": {
       "type": "string"
+    },
+    "origin": {
+      "type": "string",
+      "format": "uri",
+      "description": "Canonical site origin used for absolute URLs, SEO metadata, and feeds."
     },
     "name": {
       "type": "string",
@@ -26,10 +31,6 @@
       "format": "email",
       "description": "Public contact email address for the site owner."
     },
-    "website": {
-      "type": "string",
-      "description": "Personal website domain for the site owner."
-    },
     "github": {
       "type": "string",
       "description": "GitHub username for the site owner."
@@ -38,10 +39,21 @@
       "type": "string",
       "description": "Twitter username for the site owner."
     },
-    "origin": {
-      "type": "string",
-      "format": "uri",
-      "description": "Canonical site origin used for absolute URLs, SEO metadata, and feeds."
+    "brand": {
+      "type": "object",
+      "description": "Site brand text shown in logos.",
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Primary brand text."
+        },
+        "suffix": {
+          "type": "string",
+          "description": "Optional muted brand suffix."
+        }
+      },
+      "additionalProperties": false
     },
     "pages": {
       "type": "array",
@@ -90,8 +102,20 @@
     "resume": {
       "type": "object",
       "description": "Structured resume content rendered on the resume page.",
-      "required": ["title", "summary", "location", "experience", "projects", "education"],
+      "required": [
+        "website",
+        "title",
+        "summary",
+        "location",
+        "experience",
+        "projects",
+        "education"
+      ],
       "properties": {
+        "website": {
+          "type": "string",
+          "description": "Personal website domain for the site owner."
+        },
         "title": {
           "type": "string",
           "description": "Professional headline shown below the resume name."

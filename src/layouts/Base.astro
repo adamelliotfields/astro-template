@@ -99,7 +99,7 @@ const posts = sortedPosts.map((post) => ({
   </head>
   <body class="h-full">
     <div class="h-full flex flex-col">
-      <Header pages={config.pages} posts={posts} client:idle />
+      <Header brand={config.brand} pages={config.pages} posts={posts} client:idle />
       <main class="flex-auto pt-20 print:pt-0">
         <slot />
       </main>

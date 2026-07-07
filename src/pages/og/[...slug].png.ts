@@ -26,8 +26,6 @@ const [notFound] = Object.values(import.meta.glob('../404.astro', { eager: true 
   }
 ]
 
-const [host, domain] = config.website.split('.')
-
 const width = 1200
 const height = 630
 
@@ -201,11 +199,19 @@ export const GET = async ({ props }: { props: OpenGraphImageProps }) => {
             tw: 'absolute left-20 top-18 flex text-[28px] font-black leading-none',
             style: { letterSpacing: '-0.06em' },
             children: [
-              { type: 'span', props: { style: { color: colors.foreground }, children: `${host}` } },
               {
                 type: 'span',
-                props: { style: { color: colors.mutedForeground }, children: `.${domain}` }
-              }
+                props: { style: { color: colors.foreground }, children: config.brand.name }
+              },
+              config.brand.suffix
+                ? {
+                    type: 'span',
+                    props: {
+                      style: { color: colors.mutedForeground },
+                      children: config.brand.suffix
+                    }
+                  }
+                : null
             ]
           }
         },

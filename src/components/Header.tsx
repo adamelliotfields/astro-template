@@ -6,6 +6,11 @@ import Search from '@/components/Search'
 import Theme from '@/components/Theme'
 import { cn, trimTrailingSlash, withBase } from '@/lib/utils'
 
+type HeaderBrand = {
+  name: string
+  suffix?: string
+}
+
 type HeaderNavPage = {
   description: string
   href: string
@@ -18,11 +23,12 @@ type HeaderNavPost = {
 }
 
 type HeaderProps = {
+  brand: HeaderBrand
   pages: HeaderNavPage[]
   posts: HeaderNavPost[]
 }
 
-export default function Header({ pages, posts }: HeaderProps) {
+export default function Header({ brand, pages, posts }: HeaderProps) {
   const [pathname, setPathname] = useState('')
   const [visible, setVisible] = useState(true)
   const links = pages.filter((page) => page.href !== '/')
@@ -54,7 +60,8 @@ export default function Header({ pages, posts }: HeaderProps) {
     >
       <nav className="mx-auto grid h-full max-w-3xl grid-cols-[auto_1fr_auto] items-center border-b px-6 sm:flex sm:justify-between lg:px-0">
         <a href={withBase('/')} className="font-bold text-base text-foreground tracking-tighter">
-          wren<span className="text-muted-foreground">.dev</span>
+          {brand.name}
+          {brand.suffix ? <span className="text-muted-foreground">{brand.suffix}</span> : null}
         </a>
         <ul className="flex items-center gap-6 justify-self-center text-sm sm:ml-auto">
           {links.map((link) => {

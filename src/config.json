@@ -1,11 +1,14 @@
 {
   "$schema": "./config.schema.json",
+  "origin": "https://aef.me/astro-template",
   "name": "Wren Maddox",
   "email": "me@wren.dev",
-  "website": "wren.dev",
   "github": "wrenmaddox",
   "twitter": "wrenmaddox",
-  "origin": "https://aef.me/astro-template",
+  "brand": {
+    "name": "wren",
+    "suffix": ".dev"
+  },
   "pages": [
     {
       "href": "/",
@@ -35,6 +38,7 @@
     { "href": "/rss.xml", "title": "Rss" }
   ],
   "resume": {
+    "website": "wren.dev",
     "title": "Staff Software Engineer · Distributed Systems",
     "summary": "Staff engineer with 11+ years building the infrastructure that keeps high-traffic systems alive. I take ambiguous systems problems from design doc to production and leave them more boring than I found them.",
     "location": "Lisbon, PT (Remote)",

@@ -4,14 +4,16 @@ description: Demonstrating the difference with various link types.
 pubDate: 2026-01-07
 ---
 
+All links are processed by the [`rehype-external-links`](https://github.com/rehypejs/rehype-external-links) plugin.
+
 ## Internal
 
-Internal links point to pages generated at build time like [home](../..), [blog](../../blog), [about](../../about), and [resume](../../resume).
+Internal links point to pages generated at build time like <a href={import.meta.env.DEV ? 'http://localhost:4321' : `${import.meta.env.SITE}${import.meta.env.BASE_URL ?? ''}`}>home</a>, [blog](../../blog), [about](../../about), and [resume](../../resume).
 
-When writing internal links, prefer using relative links like `../about` instead of `/about`. This ensures links always point to the correct destination.
+Links are considered internal if they are relative or start with the `origin` from `src/config.json`.
 
 ## External
 
-External links start with a protocol like [home](https://aef.me/astro-template/) or the Astro [docs](https://docs.astro.build/en/getting-started/). These links are processed by [`rehype-external-links`](https://github.com/rehypejs/rehype-external-links) and open a new browser tab via `target="_blank"`.
+External links start with a `http`, `https`, `mailto`, or `tel` protocol. These links open a new browser tab via `target="_blank"` with `rel="noopener noreferrer"`.
 
-An SVG external link icon is appended with `aria-hidden="true"` and `aria-label="opens in a new tab"` added to the anchor element, so assistive technology users are made aware before clicking.
+An SVG external link icon is appended with `aria-hidden="true"` and `aria-label="opens in a new tab"`, so assistive technology users are made aware before clicking.

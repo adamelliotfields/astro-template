@@ -48,6 +48,12 @@ const serialize = (item: SitemapItem): SitemapItem => {
 const externalLinkOptions = {
   target: '_blank',
   rel: ['noopener', 'noreferrer'],
+  protocols: ['http', 'https', 'mailto', 'tel'],
+  test(element) {
+    const href = element.properties?.href
+    if (typeof href !== 'string') return true
+    return !href.startsWith(`${site}${base ?? ''}`)
+  },
   properties(element) {
     const text = getTextContent(element).trim()
     return {

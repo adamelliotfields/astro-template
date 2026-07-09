@@ -1,0 +1,15 @@
+---
+import type { HTMLAttributes } from 'astro/types'
+
+import { cn } from '@/lib/utils'
+
+export interface Props extends HTMLAttributes<'div'> {
+  as?: keyof HTMLElementTagNameMap
+}
+
+const { as: Tag = 'div', class: className, ...props } = Astro.props
+---
+
+<Tag class={cn('mx-auto max-w-3xl px-6 lg:px-0', className)} {...props}>
+  <slot />
+</Tag>

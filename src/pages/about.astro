@@ -2,6 +2,7 @@
 import { Mail } from 'lucide-react'
 
 import avatar from '@/assets/avatar.svg'
+import Container from '@/components/Container.astro'
 import config from '@/config.json'
 import Layout from '@/layouts/Base.astro'
 
@@ -11,7 +12,7 @@ const linkClass = 'font-medium text-foreground underline-offset-4 hover:underlin
 ---
 
 <Layout title={title} description={description}>
-  <div class="mx-auto mt-16 max-w-3xl px-6 lg:px-0">
+  <Container class="mt-16">
     <h1 class="text-3xl font-bold tracking-tighter text-foreground sm:text-4xl">
       About
     </h1>
@@ -120,5 +121,5 @@ const linkClass = 'font-medium text-foreground underline-offset-4 hover:underlin
         </div>
       </aside>
     </div>
-  </div>
+  </Container>
 </Layout>

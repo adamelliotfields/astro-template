@@ -1,5 +1,7 @@
 ---
 import { ArrowLeft, Home } from 'lucide-react'
+
+import Container from '@/components/Container.astro'
 import { buttonVariants } from '@/components/ui/button'
 import Layout from '@/layouts/Base.astro'
 import { withBase } from '@/lib/utils'
@@ -10,7 +12,7 @@ export const description =
 ---
 
 <Layout title={title} description={description}>
-  <div class="mx-auto mt-16 max-w-3xl px-6 lg:px-0">
+  <Container class="mt-16">
     <section aria-labelledby="not-found-heading" class="py-10 sm:py-16">
       <p class="font-medium text-muted-foreground text-sm uppercase tracking-wide">
         404
@@ -30,6 +32,7 @@ export const description =
         <a
           href={withBase('/')}
           class={buttonVariants({ size: 'lg', className: 'rounded-md px-4 shadow' })}
+          data-astro-prefetch
         >
           <Home className="mr-2 h-4 w-4" />
           Go home
@@ -37,6 +40,7 @@ export const description =
         <a
           href={withBase('/blog')}
           class={buttonVariants({ variant: 'ghost', size: 'lg', className: 'group rounded-md px-4' })}
+          data-astro-prefetch
         >
           <ArrowLeft
             className="mr-1 h-4 w-4 transition-transform group-hover:-translate-x-0.5"
@@ -45,5 +49,5 @@ export const description =
         </a>
       </div>
     </section>
-  </div>
+  </Container>
 </Layout>

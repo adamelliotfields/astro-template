@@ -48,7 +48,7 @@ export function filterDrafts(entry: Post): boolean {
 }
 
 /** Make a date human-readable. */
-export function formatDate(date: string | Date, format: 'long' | 'short' = 'long'): string {
+export function formatDate(date: string | Date): string {
   const dateString = typeof date === 'string' ? date : date.toISOString()
   const hasTime = dateString.includes('T')
   const hasTimeZone = /Z|[+-]\d{2}:\d{2}$/.test(dateString)
@@ -56,9 +56,6 @@ export function formatDate(date: string | Date, format: 'long' | 'short' = 'long
   const newDate = new Date(fullDateString)
 
   if (String(newDate) === 'Invalid Date') throw new Error('Invalid Date')
-
-  // short format is ISO 8601 (YYYY-MM-DD)
-  if (format === 'short') return newDate.toISOString().split('T').at(0) as string
 
   return newDate.toLocaleDateString('en-US', {
     day: 'numeric',

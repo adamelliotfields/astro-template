@@ -1,6 +1,8 @@
 ---
 import { getCollection } from 'astro:content'
 import { ArrowUpRight } from 'lucide-react'
+
+import Container from '@/components/Container.astro'
 import { buttonVariants } from '@/components/ui/button'
 import config from '@/config.json'
 import Layout from '@/layouts/Base.astro'
@@ -15,7 +17,7 @@ const { title, description } = config.pages.find((item) => item.href === '/')!
 ---
 
 <Layout title={title} description={description}>
-  <div class="mx-auto max-w-3xl mt-16 px-6 lg:px-0">
+  <Container class="mt-16">
     <header>
       <h1 class="text-4xl font-bold tracking-tighter text-foreground sm:text-5xl">
         Writing in public.
@@ -29,12 +31,14 @@ const { title, description } = config.pages.find((item) => item.href === '/')!
         <a
           href={withBase('/blog')}
           class={buttonVariants({ size: 'lg', className: 'rounded-md px-4 shadow' })}
+          data-astro-prefetch
         >
           Read the blog
         </a>
         <a
           href={withBase('/about')}
           class={buttonVariants({ variant: 'ghost', size: 'lg', className: 'group rounded-md px-4' })}
+          data-astro-prefetch
         >
           About me
           <ArrowUpRight
@@ -52,11 +56,12 @@ const { title, description } = config.pages.find((item) => item.href === '/')!
           id="recent-heading"
           class="text-2xl font-bold tracking-tighter text-foreground sm:text-3xl"
         >
-          Recent writing
+          Recent posts
         </h2>
         <a
           href={withBase('/blog')}
           class="text-muted-foreground text-sm transition-colors hover:text-foreground"
+          data-astro-prefetch
         >
           View all &rarr;
         </a>
@@ -67,26 +72,30 @@ const { title, description } = config.pages.find((item) => item.href === '/')!
           sortedPosts.map((post) => {
             const { description: postDescription, title: postTitle, pubDate } = post.data
             return (
-              <section class="lg:grid lg:grid-cols-[auto_1fr] lg:gap-8 lg:items-baseline">
+              <section class="lg:grid lg:grid-cols-[9rem_1fr] lg:gap-8 lg:items-baseline">
                 <time
                   datetime={pubDate!.toISOString()}
-                  class="hidden text-foreground/80 text-sm lg:block"
+                  class="hidden font-mono text-foreground/70 text-xs lg:block"
                 >
                   {formatDate(pubDate!)}
                 </time>
                 <article>
                   <h2 class="text-base font-semibold tracking-tight text-foreground">
-                    <a href={withBase(`/blog/${post.id}`)} class="hover:underline">
+                    <a
+                      href={withBase(`/blog/${post.id}`)}
+                      class="hover:underline"
+                      data-astro-prefetch
+                    >
                       {postTitle}
                     </a>
                   </h2>
+                  <p class="mt-1 text-muted-foreground text-sm">{postDescription}</p>
                   <time
                     datetime={pubDate!.toISOString()}
-                    class="mt-1 block text-foreground/80 text-sm lg:hidden"
+                    class="mt-2 block font-mono text-foreground/70 text-xs lg:hidden"
                   >
                     {formatDate(pubDate!)}
                   </time>
-                  <p class="mt-1 text-muted-foreground text-sm">{postDescription}</p>
                 </article>
               </section>
             )
@@ -94,5 +103,5 @@ const { title, description } = config.pages.find((item) => item.href === '/')!
         }
       </div>
     </section>
-  </div>
+  </Container>
 </Layout>

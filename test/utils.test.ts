@@ -106,12 +106,12 @@ describe('filterDrafts', () => {
 })
 
 describe('formatDate', () => {
-  it('formats a date in long format by default', () => {
+  it('formats a date string', () => {
     expect(formatDate('2026-01-01')).toBe('January 1, 2026')
   })
 
-  it('formats a date in short format', () => {
-    expect(formatDate(new Date('2026-01-01T12:34:56Z'), 'short')).toBe('2026-01-01')
+  it('formats a Date object', () => {
+    expect(formatDate(new Date('2026-01-01T12:34:56Z'))).toBe('January 1, 2026')
   })
 
   it('treats date-only strings as UTC', () => {

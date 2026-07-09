@@ -1,5 +1,6 @@
 ---
-import { ArrowLeft, Home } from 'lucide-react'
+import ArrowLeft from 'lucide-static/icons/arrow-left.svg'
+import Home from 'lucide-static/icons/home.svg'
 
 import Container from '@/components/Container.astro'
 import { buttonVariants } from '@/components/ui/button'
@@ -34,7 +35,7 @@ export const description =
           class={buttonVariants({ size: 'lg', className: 'rounded-md px-4 shadow' })}
           data-astro-prefetch
         >
-          <Home className="mr-2 h-4 w-4" />
+          <Home class="mr-2 h-4 w-4" />
           Go home
         </a>
         <a
@@ -43,7 +44,7 @@ export const description =
           data-astro-prefetch
         >
           <ArrowLeft
-            className="mr-1 h-4 w-4 transition-transform group-hover:-translate-x-0.5"
+            class="mr-1 h-4 w-4 transition-transform group-hover:-translate-x-0.5"
           />
           Read the blog
         </a>

@@ -1,6 +1,6 @@
 ---
 import { getCollection } from 'astro:content'
-import { ArrowUpRight } from 'lucide-react'
+import ArrowUpRight from 'lucide-static/icons/arrow-up-right.svg'
 
 import Container from '@/components/Container.astro'
 import { buttonVariants } from '@/components/ui/button'
@@ -42,7 +42,7 @@ const { title, description } = config.pages.find((item) => item.href === '/')!
         >
           About me
           <ArrowUpRight
-            className="ml-1 h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+            class="ml-1 h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
           />
         </a>
       </div>

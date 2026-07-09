@@ -1,7 +1,8 @@
 ---
 import { type CollectionEntry, getCollection, render } from 'astro:content'
 import type { GetStaticPaths } from 'astro'
-import { Calendar, Clock } from 'lucide-react'
+import Calendar from 'lucide-static/icons/calendar.svg'
+import Clock from 'lucide-static/icons/clock.svg'
 import getReadingTime from 'reading-time'
 
 import Container from '@/components/Container.astro'
@@ -48,20 +49,20 @@ export const getStaticPaths: GetStaticPaths = async () => {
       </h1>
       <div class="mt-3 flex items-center text-muted-foreground text-sm">
         <Calendar
-          className="-mt-0.5 mr-2"
+          class="-mt-0.5 mr-2"
           width="1em"
           height="1em"
-          strokeWidth={1.75}
+          stroke-width={1.75}
         />
         <time class="font-mono tracking-tight" datetime={pubDate.toISOString()}>
           {formatDate(pubDate!)}
         </time>
         <span class="mx-2">|</span>
         <Clock
-          className="-mt-0.5 mr-2"
+          class="-mt-0.5 mr-2"
           width="1em"
           height="1em"
-          strokeWidth={1.75}
+          stroke-width={1.75}
         />
         <span class="font-mono tracking-tight">{time}</span>
       </div>

@@ -33,6 +33,7 @@
     "clsx": "^2",
     "cmdk": "^1",
     "lucide-react": "^1",
+    "lucide-static": "^1",
     "radix-ui": "^1",
     "react": "^19",
     "react-dom": "^19",

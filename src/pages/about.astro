@@ -1,5 +1,5 @@
 ---
-import { Mail } from 'lucide-react'
+import Mail from 'lucide-static/icons/mail.svg'
 
 import avatar from '@/assets/avatar.svg'
 import Container from '@/components/Container.astro'
@@ -114,7 +114,7 @@ const linkClass = 'font-medium text-foreground underline-offset-4 hover:underlin
               href={`mailto:${config.email}`}
               class="mt-4 flex items-center gap-2 text-muted-foreground text-sm transition-colors hover:text-foreground"
             >
-              <Mail width="1em" height="1em" strokeWidth={1.75} />
+              <Mail width="1em" height="1em" stroke-width={1.75} />
               {config.email}
             </a>
           </section>

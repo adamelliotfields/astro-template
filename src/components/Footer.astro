@@ -1,11 +1,11 @@
 ---
-import { Rss } from 'lucide-react'
+import Rss from 'lucide-static/icons/rss.svg'
 
 import Container from '@/components/Container.astro'
 import config from '@/config.json'
-import GitHub from '@/icons/GitHub'
-import LinkedIn from '@/icons/LinkedIn'
-import X from '@/icons/X'
+import GitHub from '@/icons/GitHub.svg'
+import LinkedIn from '@/icons/LinkedIn.svg'
+import X from '@/icons/X.svg'
 import { withBase } from '@/lib/utils'
 
 const icons = { GitHub, LinkedIn, X, Rss }
@@ -28,7 +28,7 @@ const links = config.socials.map(({ href, title }) => ({
               aria-label={title}
               class="text-muted-foreground transition-colors hover:text-foreground"
             >
-              <Icon className="size-4" strokeWidth={1.75} />
+              <Icon class="size-4" stroke-width={1.75} />
             </a>
           ))
         }
